@@ -36,6 +36,28 @@ enum NoteDuration {
   /// Whether the note duration has a flag.
   final bool hasFlag;
 
+  int noteDurationInSeconds(int bpm){
+
+    switch (this) {
+      case NoteDuration.whole:
+        return (240 / bpm).round();
+      case NoteDuration.half:
+        return (120 / bpm).round();
+      case NoteDuration.quarter:
+        return (60 / bpm).round();
+      case NoteDuration.eighth:
+        return (30 / bpm).round();
+      case NoteDuration.sixteenth:
+        return (15 / bpm).round();
+      case NoteDuration.thirtySecond:
+        return (7.5 / bpm).round();
+      case NoteDuration.sixtyFourth:
+        return (3.75 / bpm).round();
+      case NoteDuration.hundredsTwentyEighth:
+        return (1.875 / bpm).round();
+    }
+  }
+
   /// Returns the corresponding NoteHeadType for the note duration.
   NoteHeadType get noteHeadType {
     switch (this) {
