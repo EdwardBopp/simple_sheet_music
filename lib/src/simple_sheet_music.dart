@@ -70,6 +70,7 @@ class SimpleSheetMusicState extends State<SimpleSheetMusic> {
   late final GlyphPaths glyphPath;
   late final GlyphMetadata metadata;
   late final Future<void> _future;
+  Widget? lastSheet;
 
   FontType get fontType => widget.fontType;
 
@@ -95,6 +96,9 @@ class SimpleSheetMusicState extends State<SimpleSheetMusic> {
       future: _future,
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
+          if(lastSheet != null) {
+            return lastSheet!;
+          }
           return const Center(child: CircularProgressIndicator());
         }
         final metricsBuilder = SheetMusicMetrics(
@@ -110,10 +114,13 @@ class SimpleSheetMusicState extends State<SimpleSheetMusic> {
           widgetWidth: widget.width,
           widgetHeight: widget.height,
         );
-        return CustomPaint(
-          size: targetSize,
-          painter: SheetMusicRenderer(layout),
-        );
+
+        lastSheet = CustomPaint(
+                      size: targetSize,
+                      painter: SheetMusicRenderer(layout),
+                    );
+
+        return lastSheet!;
       },
     );
   }
